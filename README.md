@@ -206,6 +206,32 @@ Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect t
 
 Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing upwards and screw the module to the tapped metal spacers.
 
+## Construct the chamber out of XPS foam
+Make a close-fitting MDF skirt to replace the 3D printer cover. The width must be able to accomodate the thickness of the XPS foam you are using. Measure out and cut the sides and the top.
+In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress.
+In the top, create an opening to accomodate the small heatsink of the TEC Cooler. Create a rebate for an acrylic support block for the TEC to rest on. The acrylic support must have a rectangular opening the same size as that in the XPS foam top. On the inside face of the top, cut out two relief channels to allow better airflow out of the small heatsink.
+Glue all the components together with Gorilla glue and prime the chamber with two coats of Mod Podge to protect the chamber.
+Assemble the chamber with the TEC and the acrylic support plate.
+Place a small hole in the top of the chamber to pass the power cables through for the small fan.
+Place a hole near the bottom of the chamber so the temperature sensor is just above the resin vat.
+
 ## Wiring up the thermoelectic module
 Connect/solder the other end of the twin core/heavy duty hook-up wire to the peltier module.
 Connect/solder the end of the twin core/light duty hook-up wire from the power supply to the two fans on the Thermoelectic Peltier Refrieration Cooling System.
+
+## Test the system
+Insert the temperature sensor into the chamber and seal with Blue Tack.
+Connect the power supply to the wall socket and turn it on - the two fans on the TEC will produce significant noise, as they are runnng at full power. They are also VERY cheap, so their bearings will add to the noise after a short while. Since my setup is in a shed out back, the noise is not a problem to me, so I have not incorporated a solution. Another IBT_2 could be used to control the fans, but the system has better efficiency when the heatsinks are flushed as quickly as possible. The only advice I can give is to just replace the fans with good quality ones.
+Then log into the Raspberry Pi over SSH, change into the directory and run the *temperature.py* script.
+```
+cd ~/rpi-pid-chamber
+python temperature.py --help
+python temperature.py 30
+```
+The temperature inside the chamber should start increasing/decrease depending on the target temperature.
+If the temperature is moving the wrong way, then stop the script with *CTRL-C* and change the pin settings of the script
+```
+python temperature.py 30 --cooling-pin 22 --heating-pin 27
+```
+When all is in order, log the output so you can examine the csv data in Excel.
+Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC havig a duty cycle around 20%. Small fluctuations around the target temperature results in the duty cycle varying in the range 10%-30%. One can get a +-0.1C variation from the target temperature.
