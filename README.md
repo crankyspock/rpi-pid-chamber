@@ -1,7 +1,7 @@
 # Maintaining the Temperature of a 3D Resin Printer Chamber Using PID Control
 
 ## Why do this?
-
+Ventilation is a hard problem - to circumvent it, place the printer in a place away from others. Tin shed out back... But temperatures vary wildly, to place the build space in a small, but tightly controlled chamber. Can place this setup outside under the veranda. Probably what I will have to do during summer, when my shed can reach above 60C if the doors are shut. Leave the printer out in the elements, but the build chamber is at a steady, controlled temperature. Printer is on a wheeled station, so can move it outdoors.
 
 ## Shopping List
 
