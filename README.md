@@ -30,7 +30,7 @@ Components for each 3D printer
         (https://www.jaycar.com.au/15a-twin-core-power-cable-sold-per-metre/p/WH3079)
             or
         (https://www.jaycar.com.au/red-heavy-duty-hook-up-wire-sold-per-metre/p/WH3040) and (https://www.jaycar.com.au/black-heavy-duty-hook-up-wire-sold-per-metre/p/WH3041)
-- Xm of twin cable to connect temperature sensors (https://www.jaycar.com.au/red-flexible-light-duty-hook-up-wire-sold-per-metre/p/WH3010) and (https://www.jaycar.com.au/black-flexible-light-duty-hook-up-wire-sold-per-metre/p/WH3011)
+- Xm of twin cable to connect temperature sensors & power to the two fans on the Thermoelectic Peltier Refrieration Cooling System (https://www.jaycar.com.au/red-flexible-light-duty-hook-up-wire-sold-per-metre/p/WH3010) and (https://www.jaycar.com.au/black-flexible-light-duty-hook-up-wire-sold-per-metre/p/WH3011)
 
 Miscellaneous
 - Soldering iron & solder (optional as one can just use connectors)
@@ -139,6 +139,7 @@ Turn off the Raspberry Pi while doing any wiring!
 Use the [Raspberry Pip Pinout Reference](https://pinout.xyz/) to assist in wiring up the SIX connections to the mini breadboard.
 The [DS18B20 Temperature Sensor Module](https://www.jaycar.com.au/digital-temperature-sensor-module/p/XC3700) comes with three pins.
 ![DS18B20 Temperature Sensor Module](https://www.jaycar.com.au/medias/sys_master/images/images/9725855367198/XC3700-digital-temperature-sensor-modulegallery5-300.jpg)
+
 Take note which pin is the signal (S), which is the +ve (3.3V) and which is the -ve (GND).
 Insert the module pins into the mini breadboard on the edge so that the bulk of the module hangs off the mini breadboard. Take note which row of the mini breadboard is associated with the signal (S), the 3.3V and the GND of the module.
 Using the plug to socket jumper leads, connect the 3.3V row to *Physical Pin 1* on the Raspberry Pi's GPIO.
@@ -151,7 +152,7 @@ If one runs out of connections in a row, remember that the full row can be conne
 Turn on the Raspberry Pi and connect to it over SSH.
 Change into the *rpi-pid-chamber* directory and run the *sensors.py* python script
 ```
-cd rpi-pid-chamber
+cd ~/rpi-pid-chamber
 python sensors.py
 ```
 This script will print out the sensor ID and the temperature of all the DS18B20 sensors connected to the Raspberry Pi. Placing a finger on the sensor will increase the temperature that is being read - this can be used to identify the sensor ID when there are multiple sensors connected.
@@ -159,12 +160,52 @@ Take note of the ID of the DS18B20 Temperature Sensor Module - this sensor is us
 The Raspberry Pi is now set up!
 
 ## Wiring up the power supply
+Measure out the mounting holes at the top and bottom edge of the power supply onto the MDF board. Using an old power cable (or old kettle cord), cut off the appliance end and strip the insulation from the wires using a sharp knife. Crimp an eye terminal onto the exposed wire using a crimping tool or a pair of pliers (I just soldered the wires onto the eye terminal).
+Cut a short length of the twin core or heavy duty hook-up wire to connect the power supply to the IBT_2 module/driver. Strip the insulation from both ends of the wire and crimp/solder eye terminals to one end of the wire.
+Screw the eye terminals to the power supply.
+Brown power cord - Live
+Blue power cord - Neutral
+Yellow/Green power cord - Earth
+Red core/hookup - V+
+Black core/hookup - V-
 
-
-## Wiring up the IBT_2 module
-
+Cut and strip both ends of the twin cable or light duty hook-up wire to provide power to the fans on the Thermoelectic Peltier Refrieration Cooling System. Crimp/solder eye terminals to one end of the wire and screw the eye terminals to the power supply using the empty connection points.
+Red core/hookup - V+
+Black core/hookup - V-
 
 ## Wiring up the temperature sensors
+Assemble the DS18B20 Temperature Sensor Kit as shown [here](https://www.youtube.com/watch?v=mMoRSgNoOoE)
+Using the plug to plug jumper leads (if close enough), connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector.
+Run the *sensors.py* python script to confirm the sensor is recognised so the sensor ID can be recognised
+```
+cd ~/rpi-pid-chamber
+python sensors.py
+```
+Take note of the sensor ID as it will be required later.
+Note that longer wires can be used to allow the temperature sensor kit to be located further away from the Raspberry Pi. Lengthen to taste...
 
+## Wiring up the IBT_2 module
+Measure out the mounting hole spacing of the IBT_2 module/driver onto the MDF board.
+Drill out 3mm holes and mount the M3 x 25mm Tapped Metal Spacers to the MDF board using the M3 x 6mm Steel Screws & washers.
+Screw the V+ wire from the power supply to the B+ terminal block.
+Screw the V- wire from the power supply to the B- terminal block.
+Using the plug to socket jumper leads, connect the following:
+Mini bread board    ->  IBT_2
+5V row              ->  Pin 7 (Vcc)
+GND row             ->  Pin 8 (GND)
+3.3V row            ->  Pin 3 (R_EN)
+3.3V row            ->  Pin 4 (L_EN)
+
+Using the socket to socket jumper leads, connect the following:
+Raspberry Pi        ->  IBT_2
+Physical Pin 13     ->  Pin 1 (RPWM)
+Physical Pin 15     ->  Pin 2 (LPWM)
+Note that it is not important which of of these two pins are connected to which. They can be set in the software.
+
+Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect the red and black wires of one end to the M+ and M- terminal block.
+
+Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing upwards and screw the module to the tapped metal spacers.
 
 ## Wiring up the thermoelectic module
+Connect/solder the other end of the twin core/heavy duty hook-up wire to the peltier module.
+Connect/solder the end of the twin core/light duty hook-up wire from the power supply to the two fans on the Thermoelectic Peltier Refrieration Cooling System.
