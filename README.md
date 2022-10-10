@@ -112,7 +112,7 @@ sudo apt update && sudo apt upgrade -y
 ```
 Do this once in a while
 
-### Confgure the python scripts
+### Configure the python scripts
 Connect to the Raspberry Pi over SSH using Windows Terminal and update the system.
 Install the following packages
 ```
@@ -324,4 +324,4 @@ exit
 ```
 in the window/panel and it will close.
 
-You can use this feature of *tmux* to run several chambers at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply.
+You can use this feature of *tmux* to run several chambers at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply or put it on its own extra power supply.
