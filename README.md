@@ -48,15 +48,25 @@ Miscellaneous
 ### Configure the Raspbian OS
 Download the official [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and install it.
 Insert the microSD card into your PC/Mac using an adapter and start the Raspberry Pi Imager you have just installed.
+
 Under the *CHOOSE OS* button, select *Raspberry Pi OS (other)* > *Raspberry Pi OS Lite (64-bit)*
+
 Select your microSD card under *CHOOSE STORAGE*
+
 Select the *Advanced options* menu (wheel cog in bottom right corner).
+
 Set a hostname - anything will do. I use *rpicontroller*.
+
 Check the *Enable SSH* and make sure *Use password authentication is selected*.
+
 Set a username & password you want to use.
+
 If you will be using WiFi, check the *Configure wireless LAN* and set the *SSID* and *password* to the WiFi network you use. Make sure you set the correct *Wireless LAN country* for your area.
+
 Check the *Set locale settings* checkbox and set your *Time zone* correctly.
+
 Click on the *Save* button and exit the dialog box.
+
 Click on the *WRITE* button and wait for the image to be written to the microSD. When prompted, remove the microSD from your system.
 
 ### Determine the IP address of your Raspberry Pi so you can connect to it
