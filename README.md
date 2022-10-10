@@ -6,6 +6,9 @@ Safety issues had me relocate my printer to the shed. This unheated tin shed get
 Some stats: the maximum temperature difference between the top of the chamber and the base is 2C... I can live with that. Another fan to circulate the air in the chamber would be better, but I am leaving that for v2.0. This is the original prototype that is being shown here.
 ![Chamber on the printer](https://user-images.githubusercontent.com/56422704/194804828-f257f0a8-3363-42ed-ab42-9d41bbcc9b37.jpeg)
 
+Here is a Chamber & Ambient temperature chart showing the temperature over a two hour period. The chamber takes around 30 minutes to settle at the 30C target temperature and it maintains it within 0.2C thereafter. The ambient temperature increases from 15.2C to 18.6C over this time period. The temperature inside the chamber is not affected by the ambient temperature.
+![Chamber & Ambient Temperature Chart](https://user-images.githubusercontent.com/56422704/194842887-2f704fea-28f7-4bea-bceb-071f1e721f3f.png)
+
 ## Shopping List
 
 - Raspberry Pi 3B or later with its own power supply
@@ -245,7 +248,7 @@ Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing up
 Make a close-fitting MDF skirt to support the XPS foam chamber. 
 ![MDF shelf to support the enclosure](https://user-images.githubusercontent.com/56422704/194804841-80fb968f-5ce3-4871-893a-2cf5621d8a06.jpeg)
 The width must be able to accomodate the thickness of the XPS foam you are using. Measure out and cut the sides and the top.
-In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress.
+In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress. This acrylic window is important as it allows heat to enter/escape from the chamber. I have a piece of XPS foam I use to cover the window if the ambient temperature is too low. If heat does not enter/exit the chamber, the TEC oscillates between cooling and heating. It is better if it is 'pulling' against a small inflow/outflow of heat.
 ![Acrylic window](https://user-images.githubusercontent.com/56422704/194804890-a619e3f5-5301-49ac-a04f-76f77bd12849.jpeg)
 In the top, create an opening to accomodate the small heatsink of the TEC Cooler.
 ![TEC on top of the chamber](https://user-images.githubusercontent.com/56422704/194804907-6e3036b9-fbe8-486a-9cb3-148e156bc091.jpeg)
