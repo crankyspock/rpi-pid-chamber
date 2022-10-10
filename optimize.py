@@ -58,7 +58,8 @@ chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.enclos
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.ambient_sensor_id)
 
 session_details = str(f'Starting Time: {time.strftime("%Y%m%d-%H%M%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\n')
-csv_header = str(f'Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,Heater_On,Cooler_On\n')
+csv_header = str(f'Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,Mode\n')
+print(session_details)
 if args.log_name:
     with open(args.log_name, 'a') as f:
         f.write(session_details)
@@ -114,10 +115,10 @@ try:
                 cooler_on = True
                 print('Cooler is now on')
 
-        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response)}% | I: {int(integral_response)}% | D: {int(derivative_response)}% | DC: {int(pwm_duty_cycle)}% | Heater_On: {heater_on} | Cooler_On: {cooler_on}')
+        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response)}% | I: {int(integral_response)}% | D: {int(derivative_response)}% | DC: {int(pwm_duty_cycle)}% | {"Heater On" if heater_on else "Cooler On"}')
         if args.log_name:
             with open(args.log_name, 'a') as f:
-                f.write(f'{time.strftime("%Y%m%d-%H%M%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{heater_on},{cooler_on}\n')
+                f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{"Heater On" if heater_on else "Cooler On"}\n')
 
         previous_error = current_error
         previous_time = current_time
