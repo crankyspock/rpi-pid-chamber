@@ -1,0 +1,15 @@
+[DEFAULTS]
+pwm-frequency=5000
+ambient-sensor-id=011441bdcfaa
+
+[Photon Mono]
+target-temperature=30
+proportional-gain=15
+integral-gain=0.2
+derivative-gain=0
+sampling-interval=2
+windup=2
+cooling-pin=13
+heating-pin=15
+chamber-sensor-id=01191136490c
+logname-prefix=photon_mono

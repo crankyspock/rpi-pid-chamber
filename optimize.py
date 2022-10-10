@@ -31,8 +31,8 @@ parser.add_argument('-i', metavar='integral', dest='integral_gain', help='Integr
 parser.add_argument('-d', metavar='derivative', dest='derivative_gain', help='Derivative gain to use in PID calculations (default is 0.0)', required=False, default=0.0, type=float)
 parser.add_argument('-s', metavar='sampling-interval', dest='pid_sampling_interval', help='PID sampling interval in seconds (default is 2.0)', required=False, default=2.0, type=float)
 parser.add_argument('-w', metavar='windup', dest='windup', help='To prevent windup, I & D calculations are not used if the temperature error is greater than this value (default is 2.0)', required=False, default=2.0, type=float)
-parser.add_argument('--cool-pin', metavar='cooling-pwm-pin', dest='cooling_pwm_pin', help='BCM pin used for PWM cooling (default is pin 27)', required=False, default=27, type=int)
-parser.add_argument('--heat-pin', metavar='heating-pwm-pin', dest='heating_pwm_pin', help='BCM pin used for PWM heating (default is pin 22)', required=False, default=22, type=int)
+parser.add_argument('--cool-pin', metavar='cooling-pwm-pin', dest='cooling_pwm_pin', help='Board pin used for PWM cooling (default is pin 13)', required=False, default=13, type=int)
+parser.add_argument('--heat-pin', metavar='heating-pwm-pin', dest='heating_pwm_pin', help='Board pin used for PWM heating (default is pin 15)', required=False, default=15, type=int)
 parser.add_argument('--pwm-frequency', metavar='pwm-frequency', dest='pwm_frequency', help='PWM frequencies less than 2000Hz will dammage peltier/TEC modules (default is 5000)', required=False, default=5000, type=int)
 parser.add_argument('--ambient-sensor', metavar='ambient-temp-sensor', dest='ambient_sensor_id', help='1-Wire senor ID for ambient temperature sensor', required=False, default='011441bdcfaa')
 parser.add_argument('--enclosure-sensor', metavar='enclosure-sensor-id', dest='enclosure_sensor_id', help='1-Wire sensor ID for enclosure temperature sensor', required=False, default='01191136490c')
@@ -48,7 +48,7 @@ cumulative_error = 0.0
 previous_time = datetime.datetime.now()
 time.sleep(args.pid_sampling_interval) # Initialise a time interval for PID calculations
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(output_pins, GPIO.OUT)
 cooler = GPIO.PWM(args.cooling_pwm_pin, args.pwm_frequency)
 heater = GPIO.PWM(args.heating_pwm_pin, args.pwm_frequency)
@@ -127,5 +127,5 @@ except KeyboardInterrupt: # Ctrl-C to exit
     print(f'\nCooler has been stopped')
     heater.stop()
     print(f'Heater has been stopped')
-    GPIO.cleanup()
+    GPIO.cleanup(output_pins)
     print(f'All pins set to input and cleared')
