@@ -48,24 +48,26 @@ Miscellaneous
 ### Configure the Raspbian OS
 Download the official [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and install it.
 Insert the microSD card into your PC/Mac using an adapter and start the Raspberry Pi Imager you have just installed.
-Select the image (headless without desktop) and then the microSD under .
-Select the Settings menu (wheel cog in bottom right) to get to the advanced settings.
-Select a hostname, a user name, a password.
-Select the SSH server.
-Set the country and localization.
-Set the WiFi SSID and password.
-Go back and write the image.
-When done, remove the microSD.
+Under the *CHOOSE OS* button, select *Raspberry Pi OS (other)* > *Raspberry Pi OS Lite (64-bit)*
+Select your microSD card under *CHOOSE STORAGE*
+Select the *Advanced options* menu (wheel cog in bottom right corner).
+Set a hostname - anything will do. I use *rpicontroller*.
+Check the *Enable SSH* and make sure *Use password authentication is selected*.
+Set a username & password you want to use.
+If you will be using WiFi, check the *Configure wireless LAN* and set the *SSID* and *password* to the WiFi network you use. Make sure you set the correct *Wireless LAN country* for your area.
+Check the *Set locale settings* checkbox and set your *Time zone* correctly.
+Click on the *Save* button and exit the dialog box.
+Click on the *WRITE* button and wait for the image to be written to the microSD. When prompted, remove the microSD from your system.
 
-### Determine the IP address of your Raspberry Pi
-Connect the Raspberry Pi to your PC monitor/TV and connect a keyboard.
+### Determine the IP address of your Raspberry Pi so you can connect to it
+Connect the Raspberry Pi to a PC monitor/TV and connect a keyboard.
 Insert the microSD into the Raspberry Pi and turn it on.
 After the Raspberry Pi has booted, log in using the username and password you provided when preparing the microSD.
 Enter the following to get the Raspberry Pi's IP address
 ```
 ip -f inet address | grep global
 ```
-The IP address of the Raspberry Pi is the first four groups of numbers before the 'XXX.XXX.XXX.XXX/24' - remember these four numbers.
+The IP address of the Raspberry Pi is the first four groups of numbers in the following format 'XXX.XXX.XXX.XXX/24' - remember these four numbers (excluding the '/24').
 Power off the Raspberry Pi with
 ```
 sudo poweroff
@@ -79,7 +81,7 @@ Start up Windows Terminal and connect to your Raspberry Pi over SSH with
 ```
 ssh <username>@<XXX.XXX.XXX.XXX>
 ```
-where '<username>' is the username you provided during the Raspbian OS configuration, and <XXX.XXX.XXX.XXX> is the IP address of your Raspberry Pi.
+where &lt;username&gt; is the username you provided during the Raspbian OS configuration, and &lt;XXX.XXX.XXX.XXX&gt; is the IP address of your Raspberry Pi.
 You will be required to enter in the password you set during the Raspbian OS configuration.
 You have connected to your Raspberry Pi over SSH successfully if you see the prompt.
 To disconnect, enter
@@ -128,7 +130,7 @@ Enter the Raspberry Pi configuration utility with
 ```
 sudo raspi-config
 ```
-Select '3 Interface Options' > '17 1-Wire' and enable it. You will be have to reboot the OS after this. The 1-Wire protocal is now enabled.
+Select '3 Interface Options' > '17 1-Wire' and enable it. You will be have to reboot the OS after this. The 1-Wire protocol is now enabled.
 
 ### Mount the Raspberry Pi to the MDF board
 Use the 3mm drill bit to carefully widen the mounting holes of the Raspberry Pi (they are just a fraction smaller than 3mm). This can and should be done by hand, Measure out the mounting locations on the MDF board and drill out the mounting holes. Use the M3 X 10mm Tapped Metal Spacers, the 3mm Steel Flat Washers and the 3mm x 6mm Screws to mount the Raspberry Pi to the MDF board.
@@ -302,7 +304,7 @@ tmux a
 ```
 and you will be back in the terminal running the python script.
 
-You can split the *tmux* terminal vertically with *CTRL+B* **THEN** *%*, or horizontally with *CTRL+B* **THEN** *"*. Navigate between the windows/panels using *CTRL+B* **THEN** *<arrow keys>*. To remove a panel, just type
+You can split the *tmux* terminal vertically with *CTRL+B* **THEN** *%*, or horizontally with *CTRL+B* **THEN** *"*. Navigate between the windows/panels using *CTRL+B* **THEN** &lt;*arrow keys*&gt;. To remove a panel, just type
 ```
 exit
 ```
