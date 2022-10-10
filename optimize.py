@@ -35,7 +35,7 @@ parser.add_argument('--cool-pin', metavar='cooling-pwm-pin', dest='cooling_pwm_p
 parser.add_argument('--heat-pin', metavar='heating-pwm-pin', dest='heating_pwm_pin', help='Board pin used for PWM heating (default is pin 15)', required=False, default=15, type=int)
 parser.add_argument('--pwm-frequency', metavar='pwm-frequency', dest='pwm_frequency', help='PWM frequencies less than 2000Hz will dammage peltier/TEC modules (default is 5000)', required=False, default=5000, type=int)
 parser.add_argument('--ambient-sensor', metavar='ambient-temp-sensor', dest='ambient_sensor_id', help='1-Wire senor ID for ambient temperature sensor', required=False, default='011441bdcfaa')
-parser.add_argument('--enclosure-sensor', metavar='enclosure-sensor-id', dest='enclosure_sensor_id', help='1-Wire sensor ID for enclosure temperature sensor', required=False, default='01191136490c')
+parser.add_argument('--chamber-sensor', metavar='chamber-sensor-id', dest='chamber_sensor_id', help='1-Wire sensor ID for enclosure temperature sensor', required=False, default='01191136490c')
 parser.add_argument('--log', metavar='log-name', dest='log_name', help='Log data to this filename', required=False, default=None)
 args = parser.parse_args()
 
@@ -54,7 +54,7 @@ cooler = GPIO.PWM(args.cooling_pwm_pin, args.pwm_frequency)
 heater = GPIO.PWM(args.heating_pwm_pin, args.pwm_frequency)
 print(f'\nRaspberry Pi Board pin configuration for the IBT_2 module:\nCooling pin {args.cooling_pwm_pin}\nHeating pin {args.heating_pwm_pin}\nPWM Frequency: {args.pwm_frequency}Hz')
 
-chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.enclosure_sensor_id)
+chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.chamber_sensor_id)
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.ambient_sensor_id)
 
 session_details = str(f'Starting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\n')
