@@ -1,7 +1,10 @@
 # Maintaining the Temperature of a 3D Resin Printer Chamber Using PID Control
 
 ## Why do this?
-Ventilation is a hard problem - to circumvent it, place the printer in a place away from others. Tin shed out back... But temperatures vary wildly, to place the build space in a small, but tightly controlled chamber. Can place this setup outside under the veranda. Probably what I will have to do during summer, when my shed can reach above 60C if the doors are shut. Leave the printer out in the elements, but the build chamber is at a steady, controlled temperature. Printer is on a wheeled station, so can move it outdoors.
+
+Safety issues had me relocate my printer to the shed. This unheated tin shed gets wild temperature swings so I had to come up with a solution to manage temperatures. A large enclosure for the entire printer is feasible, but has the drawback of having to open the enclosure to initiate the print from the touchscreen. I decided to replace the printer's cover with a XPS foam chamber that has a thermoelectric cooler/heater (TEC) attached, controlled by a Raspberry Pi running a Python script implementing PID controls. This allows me to control the printer without disturbing the chamber, so temperature control is maintained at all times. I seem to be able to maintain temperatures within +-0.2 C repeatably. Power-wise, when at the target temperature, the system is drawing around 30-35W from the wall, so it is not power-hungry. The system is surprisingly quick and simple to put together - well within the capabilities of most people. 
+
+![Chamber on the printer](https://user-images.githubusercontent.com/56422704/194804828-f257f0a8-3363-42ed-ab42-9d41bbcc9b37.jpeg)
 
 ## Shopping List
 
