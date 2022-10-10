@@ -5,7 +5,7 @@ import datetime
 import RPi.GPIO as GPIO
 from w1thermsensor import W1ThermSensor, Sensor
 
-parser = argparse.ArgumentParser(description="Control the temperature of all chambers specified in the config file")
+parser = argparse.ArgumentParser(description="Control the temperature of the chamber specified in the config file")
 parser.add_argument('--config', metavar='config-filename', dest='config_filename', help='Config filename containing the chamber definitions (default is config.txt', required=False, default='config.txt')
 parser.add_argument('--log', metavar='enable-logging', dest='enable_logging', help='Enable logging (default is False)', required=False, default=False)
 args = parser.parse_args()
