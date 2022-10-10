@@ -201,7 +201,7 @@ Black core/hookup - V-
 ## Wiring up the temperature sensors
 Assemble the DS18B20 Temperature Sensor Kit as shown [in this YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE)
 ![DS18B20 Temperature Sensor Module](https://user-images.githubusercontent.com/56422704/194804856-fa8487c0-4e9b-4010-8c91-30f3a2995175.jpeg)
-Using the plug to plug jumper leads (if close enough), connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector, as shown in the [YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE)
+Using the plug to plug jumper leads (if close enough), connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector, using the diagram shown in the [YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE)
 Run the *sensors.py* python script to confirm the sensor is recognised so the sensor ID can be recognised
 ```
 cd ~/rpi-pid-chamber
