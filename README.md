@@ -174,6 +174,7 @@ python sensors.py
 ```
 This script will print out the sensor ID and the temperature of all the DS18B20 sensors connected to the Raspberry Pi. Placing a finger on the sensor will increase the temperature that is being read - this can be used to identify the sensor ID when there are multiple sensors connected.
 Take note of the ID of the DS18B20 Temperature Sensor Module - this sensor is used to measure the ambient temperature of the room.
+The script can be stopped by pressing *CTRL+C*.
 The Raspberry Pi is now set up!
 
 ## Wiring up the power supply
