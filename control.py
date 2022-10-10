@@ -28,7 +28,7 @@ csv_header = str(f'Date,Time,Chamber Temp,Ambient Temp,Proportional_Response,Int
 print(session_details)
 print('\nCTRL-C to exit.....\n')
 if args.enable_logging:
-    logname = str(config.get(chamber, 'logname-prefix') + '-' + time.strftime("%Y%m%d-%H%M%S", time.localtime()))
+    logname = str(config.get(chamber, 'logname-prefix') + '-' + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + '.log')
     with open(logname, 'a') as f:
         f.write(session_details)
         f.write(csv_header)
