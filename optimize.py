@@ -57,9 +57,10 @@ print(f'\nRaspberry Pi Board pin configuration for the IBT_2 module:\nCooling pi
 chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.enclosure_sensor_id)
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.ambient_sensor_id)
 
-session_details = str(f'Starting Time: {time.strftime("%Y%m%d-%H%M%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\n')
+session_details = str(f'Starting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\n')
 csv_header = str(f'Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,Mode\n')
 print(session_details)
+print('\nCTRL-C to exit.....\n')
 if args.log_name:
     with open(args.log_name, 'a') as f:
         f.write(session_details)
@@ -103,7 +104,6 @@ try:
                     cooler_on = False
                 heater.start(pwm_duty_cycle)
                 heater_on = True
-                print('Heater is now on')
         else: # Cooler must be on
             if cooler_on:
                 cooler.ChangeDutyCycle(abs(pwm_duty_cycle))
@@ -113,7 +113,6 @@ try:
                     heater_on = False
                 cooler.start(abs(pwm_duty_cycle))
                 cooler_on = True
-                print('Cooler is now on')
 
         print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response)}% | I: {int(integral_response)}% | D: {int(derivative_response)}% | DC: {int(pwm_duty_cycle)}% | {"Heater On" if heater_on else "Cooler On"}')
         if args.log_name:

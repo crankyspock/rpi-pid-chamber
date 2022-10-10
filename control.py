@@ -23,9 +23,10 @@ print(f'\nRaspberry Pi Board pin configuration for the IBT_2 module:\nCooling pi
 chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=config.get(chamber, 'chamber-sensor-id'))
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=config.get(chamber, 'ambient-sensor-id'))
 
-session_details = str(f'Chamber: {chamber}\nStarting Time: {time.strftime("%Y%m%d-%H%M%S", time.localtime())}\nTarget temperature: {config.getfloat(chamber, "target-temperature")}\nProportional Gain: {config.getfloat(chamber, "proportional-gain")}\nIntegral Gain: {config.getfloat(chamber, "integral-gain")}\nDerivative Gain: {config.getfloat(chamber, "derivative-gain")}\n')
+session_details = str(f'Chamber: {chamber}\nStarting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {config.getfloat(chamber, "target-temperature")}\nProportional Gain: {config.getfloat(chamber, "proportional-gain")}\nIntegral Gain: {config.getfloat(chamber, "integral-gain")}\nDerivative Gain: {config.getfloat(chamber, "derivative-gain")}\n')
 csv_header = str(f'Date,Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,Mode\n')
 print(session_details)
+print('\nCTRL-C to exit.....\n')
 if args.enable_logging:
     logname = str(config.get(chamber, 'logname=prefix') + '-' + time.strftime("%Y%m%d-%H%M%S", time.localtime()))
     with open(logname, 'a') as f:
@@ -78,7 +79,6 @@ try:
                     cooler_on = False
                 heater.start(pwm_duty_cycle)
                 heater_on = True
-                print('Heater is now on')
         else: # Cooler must be on
             if cooler_on:
                 cooler.ChangeDutyCycle(abs(pwm_duty_cycle))
@@ -88,7 +88,6 @@ try:
                     heater_on = False
                 cooler.start(abs(pwm_duty_cycle))
                 cooler_on = True
-                print('Cooler is now on')
 
         print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response)}% | I: {int(integral_response)}% | D: {int(derivative_response)}% | DC: {int(pwm_duty_cycle)}% | {"Heater On" if heater_on else "Cooler On"}')
         if args.enable_logging:
