@@ -52,9 +52,9 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(output_pins, GPIO.OUT)
 cooler = GPIO.PWM(args.cooling_pwm_pin, args.pwm_frequency)
 heater = GPIO.PWM(args.heating_pwm_pin, args.pwm_frequency)
-print(f'\nRaspberry Pi BCM pin configuration for the IBT_2 module:\nCooling pin {args.cooling_pwm_pin}\nHeating pin {args.heating_pwm_pin}\nPWM Frequency: {args.pwm_frequency}Hz')
+print(f'\nRaspberry Pi Board pin configuration for the IBT_2 module:\nCooling pin {args.cooling_pwm_pin}\nHeating pin {args.heating_pwm_pin}\nPWM Frequency: {args.pwm_frequency}Hz')
 
-enclosure_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.enclosure_sensor_id)
+chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.enclosure_sensor_id)
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.ambient_sensor_id)
 
 session_details = str(f'Starting Time: {time.strftime("%Y%m%d-%H%M%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\n')
@@ -66,7 +66,7 @@ if args.log_name:
 
 try:
     while True:
-        current_temp = enclosure_sensor.get_temperature()
+        current_temp = chamber_sensor.get_temperature()
         ambient_temp = ambient_sensor.get_temperature()
         current_time = datetime.datetime.now()
         current_error = args.temperature - current_temp
