@@ -12,7 +12,7 @@ args = parser.parse_args()
 config = configparser.ConfigParser()
 config.read(args.config_filename)
 
-output_pins = (config.getint('cooling-pin'), config.getint('heating-pin'))
+output_pins = (config.sections()[0].getint('cooling-pin'), config.sections()[0].getint('heating-pin'))
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(output_pins, GPIO.OUT)
 cooler = GPIO.PWM(config.getint('cooling-pin'), config.getint('pwm-frequency'))
