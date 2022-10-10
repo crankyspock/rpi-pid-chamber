@@ -222,16 +222,16 @@ Connect/solder the end of the twin core/light duty hook-up wire from the power s
 ## Test the system
 Insert the temperature sensor into the chamber and seal with Blue Tack.
 Connect the power supply to the wall socket and turn it on - the two fans on the TEC will produce significant noise, as they are runnng at full power. They are also VERY cheap, so their bearings will add to the noise after a short while. Since my setup is in a shed out back, the noise is not a problem to me, so I have not incorporated a solution. Another IBT_2 could be used to control the fans, but the system has better efficiency when the heatsinks are flushed as quickly as possible. The only advice I can give is to just replace the fans with good quality ones.
-Then log into the Raspberry Pi over SSH, change into the directory and run the *temperature.py* script.
+Then log into the Raspberry Pi over SSH, change into the directory and run the *optimize.py* script.
 ```
 cd ~/rpi-pid-chamber
-python temperature.py --help
-python temperature.py 30
+python optimize.py --help
+python optimize.py 30
 ```
 The temperature inside the chamber should start increasing/decrease depending on the target temperature.
 If the temperature is moving the wrong way, then stop the script with *CTRL-C* and change the pin settings of the script
 ```
-python temperature.py 30 --cooling-pin 22 --heating-pin 27
+python optimize.py 30 --cooling-pin 22 --heating-pin 27
 ```
 When all is in order, log the output so you can examine the csv data in Excel.
-Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC havig a duty cycle around 20%. Small fluctuations around the target temperature results in the duty cycle varying in the range 10%-30%. One can get a +-0.1C variation from the target temperature.
+Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC havig a duty cycle around 20%. Small fluctuations around the target temperature
