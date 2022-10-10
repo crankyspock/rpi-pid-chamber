@@ -46,15 +46,15 @@ try:
         current_temp = chamber_sensor.get_temperature()
         ambient_temp = ambient_sensor.get_temperature()
         current_time = datetime.datetime.now()
-        current_error = args.temperature - current_temp
+        current_error = config.getfloat(chamber, "target-temperature") - current_temp
 
-        proportional_response = args.proportional_gain * current_error
+        proportional_response = config.getfloat(chamber, "proportional-gain") * current_error
 
         # Only calculate the integral & derivative response when close to the target temperature - prevents windup
         if abs(current_error) < config.getfloat(chamber, 'windup'):
             cumulative_error = cumulative_error + current_error * ((current_time - previous_time).total_seconds())
-            integral_response = args.integral_gain * cumulative_error
-            derivative_response = args.derivative_gain * (current_error - previous_error)/config.getfloat(chamber, 'sampling-interval')
+            integral_response = config.getfloat(chamber, "integral-gain") * cumulative_error
+            derivative_response = config.getfloat(chamber, "derivative-gain") * (current_error - previous_error)/config.getfloat(chamber, 'sampling-interval')
         else:
             cumulative_error = 0.0
             integral_response = 0.0
