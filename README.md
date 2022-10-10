@@ -165,7 +165,7 @@ Take note of the ID of the DS18B20 Temperature Sensor Module - this sensor is us
 The Raspberry Pi is now set up!
 
 ## Wiring up the power supply
-Measure out the mounting holes at the top and bottom edge of the power supply onto the MDF board. Using an old power cable (or old kettle cord), cut off the appliance end and strip the insulation from the wires using a sharp knife. Crimp an eye terminal onto the exposed wire using a crimping tool or a pair of pliers (I just soldered the wires onto the eye terminal).
+Measure out the mounting holes at the top and bottom edge of the power supply onto the MDF board. Using an old power cable (or old kettle cord), cut off the appliance end and strip the insulation from the wires using a sharp knife. Crimping the ends is the safest way of connecting the wires to the power supply Crimp an eye terminal onto the exposed wire using a crimping tool or a pair of pliers (I just soldered the wires onto the eye terminal).
 Cut a short length of the twin core or heavy duty hook-up wire to connect the power supply to the IBT_2 module/driver. Strip the insulation from both ends of the wire and crimp/solder eye terminals to one end of the wire.
 Screw the eye terminals to the power supply.
 
@@ -186,9 +186,9 @@ Red core/hookup - V+
 Black core/hookup - V-
 
 ## Wiring up the temperature sensors
-Assemble the DS18B20 Temperature Sensor Kit as shown [here](https://www.youtube.com/watch?v=mMoRSgNoOoE)
+Assemble the DS18B20 Temperature Sensor Kit as shown [in this YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE)
 ![DS18B20 Temperature Sensor Module](https://user-images.githubusercontent.com/56422704/194804856-fa8487c0-4e9b-4010-8c91-30f3a2995175.jpeg)
-Using the plug to plug jumper leads (if close enough), connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector.
+Using the plug to plug jumper leads (if close enough), connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector, as shown in the [YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE)
 Run the *sensors.py* python script to confirm the sensor is recognised so the sensor ID can be recognised
 ```
 cd ~/rpi-pid-chamber
@@ -222,14 +222,14 @@ Physical Pin 13     ->  Pin 1 (RPWM)
 
 Physical Pin 15     ->  Pin 2 (LPWM)
 
-Note that it is not important which of of these two pins are connected to which. They can be set in the software.
+Note that it is not important which of of these two GPIO pins are connected to which IBT_2 pins. They can be set correctly in the software.
 
 Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect the red and black wires of one end to the M+ and M- terminal block.
 
 Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing upwards and screw the module to the tapped metal spacers.
 
 ## Construct the chamber out of XPS foam
-Make a close-fitting MDF skirt to replace the 3D printer cover. 
+Make a close-fitting MDF skirt to support the XPS foam chamber. 
 ![MDF shelf to support the enclosure](https://user-images.githubusercontent.com/56422704/194804841-80fb968f-5ce3-4871-893a-2cf5621d8a06.jpeg)
 The width must be able to accomodate the thickness of the XPS foam you are using. Measure out and cut the sides and the top.
 In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress.
@@ -239,7 +239,7 @@ In the top, create an opening to accomodate the small heatsink of the TEC Cooler
 ![TEC removed](https://user-images.githubusercontent.com/56422704/194804921-0a060da6-35e5-4ee5-8ac9-2b843284c57d.jpeg)
 Create a rebate for an acrylic support block for the TEC to rest on.
 ![TEC & acrylic support with rebate](https://user-images.githubusercontent.com/56422704/194804900-5d3eb920-801b-4638-a170-3f665d075c4b.jpeg)
-The acrylic support must have a rectangular opening the same size as that in the XPS foam top. Inside the chamber on the top side, cut out two relief channels to allow better airflow out of the small heatsink.
+The acrylic support must have a rectangular opening that is snug with the small heatsink. Inside the chamber on the top side, cut out two relief channels to allow better airflow out of the small heatsink, or the small heatsink will be embedded in the XPS foam. Since air can only exit the small heatsink in two directions, you only need two channels.
 ![Inside the chamber showing the relief channels to help with airlow](https://user-images.githubusercontent.com/56422704/194804819-1ee78754-e6e5-417e-b73c-372662cad7ab.jpeg)
 Glue all the components together with Original Gorilla glue and prime the chamber with two coats of Mod Podge to protect the chamber.
 Assemble the chamber with the TEC and the acrylic support plate.
@@ -248,12 +248,12 @@ Place a hole near the bottom of the chamber so the temperature sensor is just ab
 ![Location of the temperature sensor](https://user-images.githubusercontent.com/56422704/194804848-52c2f169-7a2d-4656-9c09-05403cc5d964.jpeg)
 
 ## Wiring up the thermoelectic module
-Connect/solder the other end of the twin core/heavy duty hook-up wire to the peltier module.
+Connect/solder the end of the twin core/heavy duty hook-up wire from the IBT_2 module to the peltier module.
 Connect/solder the end of the twin core/light duty hook-up wire from the power supply to the two fans on the Thermoelectic Peltier Refrieration Cooling System.
 
 ## Test the system
 Insert the temperature sensor into the chamber and seal with Blue Tack.
-Connect the power supply to the wall socket and turn it on - the two fans on the TEC will produce significant noise, as they are runnng at full power. They are also VERY cheap, so their bearings will add to the noise after a short while. Since my setup is in a shed out back, the noise is not a problem to me, so I have not pursued a solution. Another IBT_2 could be used to control the speed of the fans, but the system has better efficiency when the heatsinks are flushed as quickly as possible. The only advice I can give is to just replace the fans with good quality ones if noise is a problem.
+Connect the power supply to the wall socket and turn it on - the two fans on the TEC will produce significant noise, as they are runnng at full power. They are also VERY cheap, so their bearings will add to the noise after a short while. Since my setup is in a shed out back, the noise is not a problem for me, so I have not looked for a solution. Another IBT_2 could be used to control the speed of the fans, but the system has better efficiency when the heatsinks are flushed as quickly as possible. The only advice I can give is to just replace the fans with good quality ones if noise is a problem.
 Log into the Raspberry Pi over SSH, change into the *rpi-pid-chamber* directory.
 Run the *sensors.py* script to identify the sensor IDs of the temperature probes.
 ```
@@ -263,17 +263,21 @@ python sensors.py
 Now run the *optimize.py* script, remembering to use the *--ambient-sensor* and *--chamber-sensor* switches with the sensor IDs you have just obtained.
 ```
 python optimize.py --help
-python optimize.py 30 --ambient-sensor <ambient-sensor-id> --chamber-sensor <chamber-sensor-id>
+python optimize.py 30 --ambient-sensor <ambient-sensor-id-you-recorded> --chamber-sensor <chamber-sensor-id-you-recorded>
 ```
 The temperature inside the chamber should start increasing/decrease depending on the target temperature.
-If the temperature is moving the wrong way, then stop the script with *CTRL-C* and change the pin settings of the script
+If the temperature is moving the wrong way, then stop the script with *CTRL-C* and swap the pin settings of the script
 ```
-python optimize.py 30 --cooling-pin 13 --heating-pin 15
+python optimize.py 30 --cooling-pin 15 --heating-pin 13 --ambient-sensor <ambient-sensor-id-you-recorded> --chamber-sensor <chamber-sensor-id-you-recorded>
 ```
 When all is in order, log the output so you can examine the csv data in Excel.
-Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC havig a duty cycle around 20%. Small fluctuations around the target temperature are expected and can be addressed using the derivative gain - I do not boter as it is good enough.
+Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC havig a duty cycle around 20%. Small fluctuations around the target temperature are expected and can be addressed using the derivative gain - I do not bother as it is good enough as it is.
 
-When you have reasonable PID variables, update the *config.txt* configuration file with all your data. Then you can run the *control.py* script and start printing.
+When you have reasonable PID variables, update the *config.txt* configuration file with all your data. I use the *nano* editor - save the file with *CTRL-O* and exit with *CTRL-X*.
+```
+nano config.txt
+```
+Then you can run the *control.py* script and start printing...
 ```
 python control.py
 ```
@@ -283,11 +287,12 @@ To create a tmux session
 ```
 tmux new-session -s chamber
 ```
-This open a terminal you can use. Run all your python scripts in this terminal
+This opens another terminal you can use. Run all your python scripts in this terminal, such as
 ```
 python control.py
 ```
-To detach from this terminal, press *CTRL+B* **THEN** *B*. You can then log out of the Raspberry Pi with
+
+To detach from this terminal and leave it running in the background, press *CTRL+B* **THEN** *D*. You can then log out of the Raspberry Pi with
 ```
 exit
 ```
@@ -300,6 +305,7 @@ and you will be back in the terminal running the python script.
 You can split the *tmux* terminal vertically with *CTRL+B* **THEN** *%*, or horizontally with *CTRL+B* **THEN** *"*. Navigate between the windows/panels using *CTRL+B* **THEN** *<arrow keys>*. To remove a panel, just type
 ```
 exit
-``` in the window/panel and it will close.
+```
+in the window/panel and it will close.
 
 You can use this feature of *tmux* to run several chambers at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply.
