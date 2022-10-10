@@ -168,10 +168,15 @@ The Raspberry Pi is now set up!
 Measure out the mounting holes at the top and bottom edge of the power supply onto the MDF board. Using an old power cable (or old kettle cord), cut off the appliance end and strip the insulation from the wires using a sharp knife. Crimp an eye terminal onto the exposed wire using a crimping tool or a pair of pliers (I just soldered the wires onto the eye terminal).
 Cut a short length of the twin core or heavy duty hook-up wire to connect the power supply to the IBT_2 module/driver. Strip the insulation from both ends of the wire and crimp/solder eye terminals to one end of the wire.
 Screw the eye terminals to the power supply.
+
 Brown power cord - Live
+
 Blue power cord - Neutral
+
 Yellow/Green power cord - Earth
+
 Red core/hookup - V+
+
 Black core/hookup - V-
 
 Cut and strip both ends of the twin cable or light duty hook-up wire to provide power to the fans on the Thermoelectic Peltier Refrieration Cooling System. Crimp/solder eye terminals to one end of the wire and screw the eye terminals to the power supply using the empty connection points.
@@ -196,16 +201,25 @@ Drill out 3mm holes and mount the M3 x 25mm Tapped Metal Spacers to the MDF boar
 Screw the V+ wire from the power supply to the B+ terminal block.
 Screw the V- wire from the power supply to the B- terminal block.
 Using the plug to socket jumper leads, connect the following:
+
 Mini bread board    ->  IBT_2
+
 5V row              ->  Pin 7 (Vcc)
+
 GND row             ->  Pin 8 (GND)
+
 3.3V row            ->  Pin 3 (R_EN)
+
 3.3V row            ->  Pin 4 (L_EN)
 
 Using the socket to socket jumper leads, connect the following:
+
 Raspberry Pi        ->  IBT_2
+
 Physical Pin 13     ->  Pin 1 (RPWM)
+
 Physical Pin 15     ->  Pin 2 (LPWM)
+
 Note that it is not important which of of these two pins are connected to which. They can be set in the software.
 
 Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect the red and black wires of one end to the M+ and M- terminal block.
