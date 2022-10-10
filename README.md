@@ -148,7 +148,7 @@ Take note which pin is the signal (S), which is the +ve (3.3V) and which is the 
 Insert the module pins into the mini breadboard on the edge so that the bulk of the module hangs off the mini breadboard. Take note which row of the mini breadboard is associated with the signal (S), the 3.3V and the GND of the module.
 ![DS18B20 Temperature Sensor Module mounted onto the mini breadboard](https://user-images.githubusercontent.com/56422704/194804869-dbc162b2-5115-42ab-8818-9caff18d56a0.jpeg)
 Using the plug to socket jumper leads, connect the 3.3V row to *Physical Pin 1* on the Raspberry Pi's GPIO.
-Now connect the GND row to any of the following: Physical Pin 6/9/14/20/30/34/39. Most people will just use *Physical Pin 9*.
+Now connect the GND row to any of the following: Physical Pin 6/9/14/20/30/34/39. I use *Physical Pin 9*.
 Now connect the S row to *Physical Pin 7*.
 Any additonal temperature sensors will be connected into and make use of these three S, 3.3V and GND rows on the mini breadboard. Each temperature sensor has a unique ID which identifies it on the S-row/1-Wire, and one can have as many different sensors connected together in this way.
 The last wiring to the mini breadboard is to connect each of the following to its own row on the mini breadboard: *Physical Pin 2* (5V), *Physical Pin 6* (GND) and *Physical Pin 17* (3.3V). These 5V & GND rows are used to power the IBT_2 module/driver, while the 3.3V row is used to enable the module/driver. Any additional IBT_2 modules/drivers will also make use of these three rows.
