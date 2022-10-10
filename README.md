@@ -180,7 +180,9 @@ Red core/hookup - V+
 Black core/hookup - V-
 
 Cut and strip both ends of the twin cable or light duty hook-up wire to provide power to the fans on the Thermoelectic Peltier Refrieration Cooling System. Crimp/solder eye terminals to one end of the wire and screw the eye terminals to the power supply using the empty connection points.
+
 Red core/hookup - V+
+
 Black core/hookup - V-
 
 ## Wiring up the temperature sensors
