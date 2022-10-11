@@ -2,6 +2,9 @@ import argparse
 import configparser
 import time
 import datetime
+import math
+import itertools
+from collections import deque
 import RPi.GPIO as GPIO
 from w1thermsensor import W1ThermSensor, Sensor
 
@@ -24,7 +27,7 @@ chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=config.get(
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=config.get(chamber, 'ambient-sensor-id'))
 
 session_details = str(f'Chamber: {chamber}\nStarting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {config.getfloat(chamber, "target-temperature")}\nProportional Gain: {config.getfloat(chamber, "proportional-gain")}\nIntegral Gain: {config.getfloat(chamber, "integral-gain")}\nDerivative Gain: {config.getfloat(chamber, "derivative-gain")}\n')
-csv_header = str(f'Date,Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,Mode\n')
+csv_header = str(f'Date,Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,RMSError 1min,RMSError 5min,RMSError 10min,Mode\n')
 print(session_details)
 print('\nCTRL-C to exit.....\n')
 if args.enable_logging:
@@ -38,6 +41,7 @@ heater_on = False
 pwm_duty_cycle = 10
 previous_error = 0.0
 cumulative_error = 0.0
+error_square = deque([], maxlen=int(600/config.getfloat(chamber, 'sampling-interval')))
 previous_time = datetime.datetime.now()
 time.sleep(config.getfloat(chamber, 'sampling-interval')) # Initialise a time interval for PID calculations
 
@@ -47,6 +51,7 @@ try:
         ambient_temp = ambient_sensor.get_temperature()
         current_time = datetime.datetime.now()
         current_error = config.getfloat(chamber, "target-temperature") - current_temp
+        error_square.appendleft(current_error ** 2)
 
         proportional_response = config.getfloat(chamber, "proportional-gain") * current_error
 
@@ -89,10 +94,14 @@ try:
                 cooler.start(abs(pwm_duty_cycle))
                 cooler_on = True
 
-        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >4}% | I: {int(integral_response): >4}% | D: {int(derivative_response): >4}% | DC: {int(pwm_duty_cycle): >4}% | {"Heater On" if heater_on else "Cooler On"}')
+        rms_1min = math.sqrt(sum(itertools.islice(error_square, 0, int(60/config.getfloat(chamber, 'sampling-interval'))))/(len(error_square) if len(error_square) < int(60/config.getfloat(chamber, 'sampling-interval')) else int(60/config.getfloat(chamber, 'sampling-interval'))))
+        rms_5min = math.sqrt(sum(itertools.islice(error_square, 0, int(300/config.getfloat(chamber, 'sampling-interval'))))/(len(error_square) if len(error_square) < int(300/config.getfloat(chamber, 'sampling-interval')) else int(300/config.getfloat(chamber, 'sampling-interval'))))
+        rms_10min = math.sqrt(sum(itertools.islice(error_square, 0, int(600/config.getfloat(chamber, 'sampling-interval'))))/(len(error_square) if len(error_square) < int(600/config.getfloat(chamber, 'sampling-interval')) else int(600/config.getfloat(chamber, 'sampling-interval'))))
+
+        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >3}% | I: {int(integral_response): >3}% | D: {int(derivative_response): >3}% | DC: {int(pwm_duty_cycle): >3}% | RMSErr1: {rms_1min:.5f} | RMSErr5: {rms_5min:.5f} | RMSErr10: {rms_10min:.5f} | {"Heater On" if heater_on else "Cooler On"}')
         if args.enable_logging:
             with open(logname, 'a') as f:
-                f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{"Heater On" if heater_on else "Cooler On"}\n')
+                f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{rms_1min:.5f},{rms_5min:.5f},{rms_10min:.5f},{"Heater On" if heater_on else "Cooler On"}\n')
 
         previous_error = current_error
         previous_time = current_time

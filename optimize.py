@@ -119,11 +119,11 @@ try:
                 cooler.start(abs(pwm_duty_cycle))
                 cooler_on = True
 
-        rms_1min = math.sqrt(sum(itertools.islice(error_square, 0, int(60/args.pid_sampling_interval)))/int(60/args.pid_sampling_interval))
-        rms_5min = math.sqrt(sum(itertools.islice(error_square, 0, int(300/args.pid_sampling_interval)))/int(300/args.pid_sampling_interval))
-        rms_10min = math.sqrt(sum(itertools.islice(error_square, 0, int(600/args.pid_sampling_interval)))/int(600/args.pid_sampling_interval))
+        rms_1min = math.sqrt(sum(itertools.islice(error_square, 0, int(60/args.pid_sampling_interval)))/(len(error_square) if len(error_square) < int(60/args.pid_sampling_interval) else int(60/args.pid_sampling_interval)))
+        rms_5min = math.sqrt(sum(itertools.islice(error_square, 0, int(300/args.pid_sampling_interval)))/(len(error_square) if len(error_square) < int(300/args.pid_sampling_interval) else int(300/args.pid_sampling_interval)))
+        rms_10min = math.sqrt(sum(itertools.islice(error_square, 0, int(600/args.pid_sampling_interval)))/(len(error_square) if len(error_square) < int(600/args.pid_sampling_interval) else int(600/args.pid_sampling_interval)))
 
-        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >4}% | I: {int(integral_response): >4}% | D: {int(derivative_response): >4}% | DC: {int(pwm_duty_cycle): >4}% | RMSErr1: {rms_1min:.5f} | RMSErr5: {rms_5min:.5f} | RMSErr10: {rms_10min:.5f} | {"Heater On" if heater_on else "Cooler On"}')
+        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >3}% | I: {int(integral_response): >3}% | D: {int(derivative_response): >3}% | DC: {int(pwm_duty_cycle): >3}% | RMSErr1: {rms_1min:.5f} | RMSErr5: {rms_5min:.5f} | RMSErr10: {rms_10min:.5f} | {"Heater On" if heater_on else "Cooler On"}')
         if args.log_name:
             with open(args.log_name, 'a') as f:
                 f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{rms_1min:.5f},{rms_5min:.5f},{rms_10min:.5f},{"Heater On" if heater_on else "Cooler On"}\n')
