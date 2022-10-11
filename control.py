@@ -89,7 +89,7 @@ try:
                 cooler.start(abs(pwm_duty_cycle))
                 cooler_on = True
 
-        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response)}% | I: {int(integral_response)}% | D: {int(derivative_response)}% | DC: {int(pwm_duty_cycle)}% | {"Heater On" if heater_on else "Cooler On"}')
+        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >4}% | I: {int(integral_response): >4}% | D: {int(derivative_response): >4}% | DC: {int(pwm_duty_cycle): >4}% | {"Heater On" if heater_on else "Cooler On"}')
         if args.enable_logging:
             with open(logname, 'a') as f:
                 f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{"Heater On" if heater_on else "Cooler On"}\n')
