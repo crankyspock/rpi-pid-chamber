@@ -33,12 +33,16 @@ parser.add_argument('-p', metavar='proportional', dest='proportional_gain', help
 parser.add_argument('-i', metavar='integral', dest='integral_gain', help='Integral gain to use in PID calculations (default is 0.2)', required=False, default=0.2, type=float)
 parser.add_argument('-d', metavar='derivative', dest='derivative_gain', help='Derivative gain to use in PID calculations (default is 0.0)', required=False, default=0.0, type=float)
 parser.add_argument('-s', metavar='sampling-interval', dest='pid_sampling_interval', help='PID sampling interval in seconds (default is 2.0)', required=False, default=2.0, type=float)
-parser.add_argument('-w', metavar='windup', dest='windup', help='To prevent windup, I & D calculations are not used if the temperature error is greater than this value (default is 2.0)', required=False, default=2.0, type=float)
+parser.add_argument('-r', metavar='integral-range', dest='integral_range', help='The range from the target temperature that the integral will be calculated (default is 1.0)', required=False, default=1.0, type=float)
+parser.add_argument('-w', metavar='windup', dest='windup', help='To prevent windup, integral calculations are clamped at this value (default is 50.0)', required=False, default=50.0, type=float)
+parser.add_argument('--cumulative-error', metavar='cumulative-error', dest='cumulative_error', help='Provide a cumulative error on start if whitin the integral range (default is 0.0', required=False, default=0.0, type=float)
 parser.add_argument('--cool-pin', metavar='cooling-pwm-pin', dest='cooling_pwm_pin', help='Board pin used for PWM cooling (default is pin 13)', required=False, default=13, type=int)
 parser.add_argument('--heat-pin', metavar='heating-pwm-pin', dest='heating_pwm_pin', help='Board pin used for PWM heating (default is pin 15)', required=False, default=15, type=int)
 parser.add_argument('--pwm-frequency', metavar='pwm-frequency', dest='pwm_frequency', help='PWM frequencies less than 2000Hz will dammage peltier/TEC modules (default is 5000)', required=False, default=5000, type=int)
 parser.add_argument('--ambient-sensor', metavar='ambient-temp-sensor', dest='ambient_sensor_id', help='1-Wire senor ID for ambient temperature sensor', required=False, default='011441bdcfaa')
 parser.add_argument('--chamber-sensor', metavar='chamber-sensor-id', dest='chamber_sensor_id', help='1-Wire sensor ID for enclosure temperature sensor', required=False, default='01191136490c')
+parser.add_argument('--disable-cooler', metavar='disable-cooler', dest='disable_cooler', help='Cooler will not be used - heater-only mode', required=False, default=False)
+parser.add_argument('--disable-heater', metavar='disable-heater', dest='disable_heater', help='Heater will not be used - Cooler-only mode', required=False, default=False)
 parser.add_argument('--log', metavar='log-name', dest='log_name', help='Log data to this filename', required=False, default=None)
 args = parser.parse_args()
 
@@ -47,7 +51,6 @@ cooler_on = False
 heater_on = False
 pwm_duty_cycle = 10
 previous_error = 0.0
-cumulative_error = 0.0
 error_square = deque([], maxlen=int(600/args.pid_sampling_interval))
 previous_time = datetime.datetime.now()
 time.sleep(args.pid_sampling_interval) # Initialise a time interval for PID calculations
@@ -61,8 +64,8 @@ print(f'\nRaspberry Pi Board pin configuration for the IBT_2 module:\nCooling pi
 chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.chamber_sensor_id)
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=args.ambient_sensor_id)
 
-session_details = str(f'Starting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\n')
-csv_header = str(f'Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,RMSError 1min,RMSError 5min,RMSError 10min,Mode\n')
+session_details = str(f'Starting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {args.temperature}\nProportional Gain: {args.proportional_gain}\nIntegral Gain: {args.integral_gain}\nDerivative Gain: {args.derivative_gain}\nIntegral Range: {args.integral_range}\nWindup Clamp: {args.windup}\nSampling Interval: {args.pid_sampling_interval}')
+csv_header = str(f'Date,Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,RMSError 1min,RMSError 5min,RMSError 10min,Mode\n')
 print(session_details)
 print('\nCTRL-C to exit.....\n')
 if args.log_name:
@@ -81,14 +84,14 @@ try:
         proportional_response = args.proportional_gain * current_error
 
         # Only calculate the integral & derivative response when close to the target temperature - prevents windup
-        if abs(current_error) < args.windup:
+        if abs(current_error) < args.integral_range:
             cumulative_error = cumulative_error + current_error * ((current_time - previous_time).total_seconds())
-            integral_response = args.integral_gain * cumulative_error
-            derivative_response = args.derivative_gain * (current_error - previous_error)/args.pid_sampling_interval
+            integral_response = args.integral_gain * cumulative_error if (args.integral_gain * cumulative_error) < args.windup else args.windup            
         else:
             cumulative_error = 0.0
             integral_response = 0.0
-            derivative_response = 0.0
+
+        derivative_response = args.derivative_gain * (previous_error - current_error)/((current_time - previous_time).total_seconds())
 
         calculated_response = proportional_response + integral_response + derivative_response
 
@@ -100,7 +103,7 @@ try:
         else:
             pwm_duty_cycle = calculated_response
 
-        if pwm_duty_cycle > 0: # Heater must be on
+        if (pwm_duty_cycle >= 0) and (not args.disable_heater): # Heater must be on
             if heater_on:
                 heater.ChangeDutyCycle(pwm_duty_cycle)
             else:
@@ -109,7 +112,7 @@ try:
                     cooler_on = False
                 heater.start(pwm_duty_cycle)
                 heater_on = True
-        else: # Cooler must be on
+        elif (pwm_duty_cycle < 0) and (not args.disable_cooler): # Cooler must be on
             if cooler_on:
                 cooler.ChangeDutyCycle(abs(pwm_duty_cycle))
             else:
