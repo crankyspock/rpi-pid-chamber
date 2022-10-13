@@ -25,7 +25,7 @@ Here is a Chamber & Ambient temperature chart showing the temperature over a two
 - DS18B20 Temperature Sensor Module (https://www.jaycar.com.au/digital-temperature-sensor-module/p/XC3700)
 
 Components for each 3D printer
-- XPS Foam board (big box store)
+- 30mm XPS Foam board (big box store)
 - MDF 6mm or 12mm board (big box store)
 - Small piece of clear acrylic sheet (big box store)
 - BTS7960 Motor Board/Driver (IBT_2 module) (https://www.ebay.com/sch/i.html?_nkw=bts7960&_sacat=0)
