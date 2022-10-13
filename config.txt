@@ -1,9 +1,9 @@
 [Photon Mono]
 target-temperature=30
-proportional-gain=13
-integral-gain=0.3
+proportional-gain=15
+integral-gain=0.15
 derivative-gain=0
-sampling-interval=2
+sampling-interval=20
 windup=2
 cooling-pin=13
 heating-pin=15
