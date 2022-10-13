@@ -35,7 +35,7 @@ parser.add_argument('-d', metavar='derivative', dest='derivative_gain', help='De
 parser.add_argument('-s', metavar='sampling-interval', dest='pid_sampling_interval', help='PID sampling interval in seconds (default is 2.0)', required=False, default=2.0, type=float)
 parser.add_argument('-r', metavar='integral-range', dest='integral_range', help='The range from the target temperature that the integral will be calculated (default is 1.0)', required=False, default=1.0, type=float)
 parser.add_argument('-w', metavar='windup', dest='windup', help='To prevent windup, integral calculations are clamped at this value (default is 50.0)', required=False, default=50.0, type=float)
-parser.add_argument('--cumulative-error', metavar='cumulative-error', dest='cumulative_error', help='Provide a cumulative error on start if whitin the integral range (default is 0.0', required=False, default=0.0, type=float)
+parser.add_argument('--cumulative-error', metavar='cumulative-error', dest='cumulative_error', help='Provide a cumulative error on start if within the integral range (default is 0.0)', required=False, default=0.0, type=float)
 parser.add_argument('--cool-pin', metavar='cooling-pwm-pin', dest='cooling_pwm_pin', help='Board pin used for PWM cooling (default is pin 13)', required=False, default=13, type=int)
 parser.add_argument('--heat-pin', metavar='heating-pwm-pin', dest='heating_pwm_pin', help='Board pin used for PWM heating (default is pin 15)', required=False, default=15, type=int)
 parser.add_argument('--pwm-frequency', metavar='pwm-frequency', dest='pwm_frequency', help='PWM frequencies less than 2000Hz will dammage peltier/TEC modules (default is 5000)', required=False, default=5000, type=int)
@@ -51,6 +51,7 @@ cooler_on = False
 heater_on = False
 pwm_duty_cycle = 10
 previous_error = 0.0
+cumulative_error = args.cumulative_error
 error_square = deque([], maxlen=int(600/args.pid_sampling_interval))
 previous_time = datetime.datetime.now()
 time.sleep(args.pid_sampling_interval) # Initialise a time interval for PID calculations
