@@ -11,7 +11,7 @@ from w1thermsensor import W1ThermSensor, Sensor
 parser = argparse.ArgumentParser(description="Control the temperature of the chamber specified in the config file")
 parser.add_argument('--config', metavar='config-filename', dest='config_filename', help='Config filename containing the chamber definitions (default is config.txt', required=False, default='config.txt')
 parser.add_argument('--log', metavar='enable-logging', dest='enable_logging', help='Enable logging (default is False)', required=False, default=False)
-parser.add_argument('--cumulative-error', metavar='cumulative-error', dest='cumulative_error', help='Provide a cumulative error on start if within the integral range (default is 0.0)', required=False, default=0.0, type=float)
+parser.add_argument('--integral-response', metavar='ontegral-response', dest='integral_response', help='Provide an integral-response on start if within the integral range (default is 0.0)', required=False, default=0.0, type=float)
 args = parser.parse_args()
 config = configparser.ConfigParser()
 config.read(args.config_filename)
@@ -27,7 +27,7 @@ print(f'\nRaspberry Pi Board pin configuration for the IBT_2 module:\nCooling pi
 chamber_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=config.get(chamber, 'chamber-sensor-id'))
 ambient_sensor = W1ThermSensor(sensor_type=Sensor.DS18B20, sensor_id=config.get(chamber, 'ambient-sensor-id'))
 
-session_details = str(f'Chamber: {chamber}\nStarting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {config.getfloat(chamber, "target-temperature")}\nProportional Gain: {config.getfloat(chamber, "proportional-gain")}\nIntegral Gain: {config.getfloat(chamber, "integral-gain")}\nDerivative Gain: {config.getfloat(chamber, "derivative-gain")}\nSampling Interval: {args.pid_sampling_interval}\n')
+session_details = str(f'Chamber: {chamber}\nStarting Time: {time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())}\nTarget temperature: {config.getfloat(chamber, "target-temperature")}\nProportional Gain: {config.getfloat(chamber, "proportional-gain")}\nIntegral Gain: {config.getfloat(chamber, "integral-gain")}\nDerivative Gain: {config.getfloat(chamber, "derivative-gain")}\nSampling Interval: {config.getfloat(chamber, "sampling-interval")}')
 csv_header = str(f'Date,Time,Chamber Temp,Ambient Temp,Proportional_Response,Integral_Response,Derivative_Response,Duty_Cycle,RMSError 1min,RMSError 5min,RMSError 10min,Mode\n')
 print(session_details)
 print('\nCTRL-C to exit.....\n')
@@ -41,7 +41,7 @@ cooler_on = False
 heater_on = False
 pwm_duty_cycle = 10
 previous_error = 0.0
-cumulative_error = args.cumulative_error
+cumulative_error = args.integral_response / config.getfloat(chamber, "integral-gain")
 error_square = deque([], maxlen=int(600/config.getfloat(chamber, 'sampling-interval')))
 previous_time = datetime.datetime.now()
 time.sleep(config.getfloat(chamber, 'sampling-interval')) # Initialise a time interval for PID calculations
