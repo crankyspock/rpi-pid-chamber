@@ -248,8 +248,10 @@ Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing up
 Make a close-fitting MDF skirt to support the XPS foam chamber. 
 ![MDF shelf to support the enclosure](https://user-images.githubusercontent.com/56422704/194804841-80fb968f-5ce3-4871-893a-2cf5621d8a06.jpeg)
 The width must be able to accomodate the thickness of the XPS foam you are using. Measure out and cut the sides and the top.
-In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress. I have a piece of XPS foam I use to cover the window when printing. In some instances, leaving the window uncovered results in good performance, as the heater/cooler is 'pulling' against a small inflow/outflow of heat. But this is very sensitive to the PID variables, as well as the chamber/ambient temperature difference.
+In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress. 
 ![Acrylic window](https://user-images.githubusercontent.com/56422704/194804890-a619e3f5-5301-49ac-a04f-76f77bd12849.jpeg)
+I have a piece of XPS foam I use to cover the window when printing. In some instances, leaving the window uncovered results in good performance, as the heater/cooler is 'pulling' against a small inflow/outflow of heat. But this is very sensitive to the PID variables, as well as the chamber/ambient temperature difference.
+![Cover for acrylic window]https://user-images.githubusercontent.com/56422704/195497023-4d02d445-c84a-41d2-b1ad-1584ebd93236.jpg
 In the top, create an opening to accomodate the small heatsink of the TEC Cooler.
 ![TEC on top of the chamber](https://user-images.githubusercontent.com/56422704/194804907-6e3036b9-fbe8-486a-9cb3-148e156bc091.jpeg)
 ![TEC removed](https://user-images.githubusercontent.com/56422704/194804921-0a060da6-35e5-4ee5-8ac9-2b843284c57d.jpeg)
