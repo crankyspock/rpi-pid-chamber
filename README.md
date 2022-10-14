@@ -6,8 +6,8 @@ Safety issues had me relocate my printer to the shed. This unheated tin shed get
 Some stats: the maximum temperature difference between the top of the chamber and the base is 2C... I can live with that. Another fan to circulate the air in the chamber would be better, but I am leaving that for v2.0. This is the original prototype that is being shown here.
 ![Chamber on the printer](https://user-images.githubusercontent.com/56422704/194804828-f257f0a8-3363-42ed-ab42-9d41bbcc9b37.jpeg)
 
-Here is a Chamber & Ambient temperature chart showing the temperature over a two hour period. The chamber takes around 30 minutes to settle at the 30C target temperature and it maintains it within 0.2C thereafter. The ambient temperature increases from 15.2C to 18.6C over this time period. The temperature inside the chamber is not affected by the ambient temperature.
-![Chamber & Ambient Temperature Chart](https://user-images.githubusercontent.com/56422704/194842887-2f704fea-28f7-4bea-bceb-071f1e721f3f.png)
+This is the temperature of the chamber while the ambient temperature changes throughout the day and night. The times where the temperature 'jumps' is where the chamber is removed from the printer to take out the print/mix the resin etc. After opening the chamber, I leave it for around 30 minutes to stabilize. I do not switch the chamber off, but leave it running constantly, since the power draw is around 20W. It also keeps the build plate, the resin and the rails at the target temperature, so I just need to stir the resin, wait for 30 mins and then print.
+![Chamber & Ambient Temperature Chart](https://user-images.githubusercontent.com/56422704/195845057-20a1a27b-67cf-46af-a1c4-024115713f1a.png)
 
 ## Shopping List
 
