@@ -329,4 +329,4 @@ exit
 ```
 in the window/panel and it will close.
 
-You can use this feature of *tmux* to run several chambers at different temperatures at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply or put it on its own extra power supply.
+You can use this feature of *tmux* to run several chambers at different temperatures at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply or put it on its own extra power supply. Running a single chamber on the Raspberry Pi only uses around 7% of CPU resources, so there is plenty of headroom to run more chambers.
