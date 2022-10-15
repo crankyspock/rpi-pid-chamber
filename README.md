@@ -2,11 +2,11 @@
 
 ## Why do this?
 
-Safety issues had me relocate my printer to the shed. This unheated tin shed gets wild temperature swings so I had to come up with a solution to manage temperatures. A large enclosure for the entire printer is feasible, but has the drawback of having to open the enclosure to initiate the print from the touchscreen. I decided to replace the printer's cover with a XPS foam chamber that has a thermoelectric cooler/heater (TEC) attached, controlled by a Raspberry Pi running a Python script implementing PID controls. This allows me to control the printer without disturbing the chamber, so temperature control is maintained at all times. I seem to be able to maintain temperatures within +-0.2 C repeatably. Power-wise, when at the target temperature, the system is drawing around 30-35W from the wall, so it is not power-hungry. The system is surprisingly quick and simple to put together - well within the capabilities of most people. 
-Some stats: the maximum temperature difference between the top of the chamber and the base is 2C... I can live with that. Another fan to circulate the air in the chamber would be better, but I am leaving that for v2.0. This is the original prototype that is being shown here.
+Safety issues had me relocate my printer to the shed. This unheated tin shed gets wild temperature swings so I had to come up with a solution to manage temperatures. A large enclosure for the entire printer is feasible, but has the drawback of having to open the enclosure to initiate the print from the touchscreen. I decided to replace the printer's cover with a XPS foam chamber that has a thermoelectric cooler/heater (TEC) attached, controlled by a Raspberry Pi running a Python script implementing PID controls. This allows me to control the printer without disturbing the chamber, so temperature control is maintained at all times. I seem to be able to maintain temperatures within +-0.2 C repeatably. Power-wise, when at the target temperature, the system is drawing around 20-25W from the wall, so it is not power-hungry. The system is surprisingly quick and simple to put together - well within the capabilities of most people. 
+Some stats: the temperature difference between the top of the chamber and the base is s consistent 2C... I can live with that. Another fan to circulate the air in the chamber would be better, but I am leaving that for v2.0. This is the original prototype that is being shown here.
 ![Chamber on the printer](https://user-images.githubusercontent.com/56422704/194804828-f257f0a8-3363-42ed-ab42-9d41bbcc9b37.jpeg)
 
-This is the temperature of the chamber while the ambient temperature changes throughout the day and night. The times where the temperature 'jumps' is where the chamber is removed from the printer to take out the print/mix the resin etc. After opening the chamber, I leave it for around 30 minutes to stabilize. I do not switch the chamber off, but leave it running constantly, since the power draw is around 20W. It also keeps the build plate, the resin and the rails at the target temperature, so I just need to stir the resin, wait for 30 mins and then print.
+This is the temperature of the chamber while the ambient temperature changes throughout the day and night. The times where the temperature 'jumps' is where the chamber is removed from the printer to take out the print/mix the resin etc. After opening the chamber, I leave it for around 30 minutes to stabilize. I do not switch the chamber off, but leave it running constantly, since the power draw is only around 20W. It also keeps the build plate, the resin and the rails at the target temperature, so I just need to stir the resin, wait for 30 mins and then print.
 ![Chamber & Ambient Temperature Chart](https://user-images.githubusercontent.com/56422704/195845057-20a1a27b-67cf-46af-a1c4-024115713f1a.png)
 
 ## Shopping List
@@ -155,12 +155,12 @@ The mini breadboard usually comes with double-sided adhesive tape on the undersi
 
 ### Wire up the Raspberry Pi to the mini breadboard
 Turn off the Raspberry Pi while doing any wiring!
-Use the [Raspberry Pip Pinout Reference](https://pinout.xyz/) to assist in wiring up the SIX connections to the mini breadboard.
+Use the [Raspberry Pi Pinout Reference](https://pinout.xyz/) to assist in wiring up the SIX connections to the mini breadboard.
 The [DS18B20 Temperature Sensor Module](https://www.jaycar.com.au/digital-temperature-sensor-module/p/XC3700) comes with three pins.
 ![DS18B20 Temperature Sensor Module](https://www.jaycar.com.au/medias/sys_master/images/images/9725855367198/XC3700-digital-temperature-sensor-modulegallery5-300.jpg)
 
-Take note which pin is the signal (S), which is the +ve (3.3V) and which is the -ve (GND).
-Insert the module pins into the mini breadboard on the edge so that the bulk of the module hangs off the mini breadboard. Take note which row of the mini breadboard is associated with the signal (S), the 3.3V and the GND of the module.
+Take note which pin is the signal (S - right), which is the +ve (3.3V - centre) and which is the -ve (GND - left).
+Insert the module pins into the mini breadboard on the edge so that the bulk of the module hangs off the mini breadboard. Take note which row of the mini breadboard is associated with the signal (S), the 3.3V and the GND of the temperature module.
 ![DS18B20 Temperature Sensor Module mounted onto the mini breadboard](https://user-images.githubusercontent.com/56422704/194804869-dbc162b2-5115-42ab-8818-9caff18d56a0.jpeg)
 Using the plug to socket jumper leads, connect the 3.3V row to *Physical Pin 1* on the Raspberry Pi's GPIO.
 Now connect the GND row to any of the following: Physical Pin 6/9/14/20/30/34/39. I use *Physical Pin 9*.
@@ -181,9 +181,9 @@ The script can be stopped by pressing *CTRL+C*.
 The Raspberry Pi is now set up!
 
 ## Wiring up the power supply
-Measure out the mounting holes at the top and bottom edge of the power supply onto the MDF board. Using an old power cable (or old kettle cord), cut off the appliance end and strip the insulation from the wires using a sharp knife. Crimping the ends is the safest way of connecting the wires to the power supply Crimp an eye terminal onto the exposed wire using a crimping tool or a pair of pliers (I just soldered the wires onto the eye terminal).
-Cut a short length of the twin core or heavy duty hook-up wire to connect the power supply to the IBT_2 module/driver. Strip the insulation from both ends of the wire and crimp/solder eye terminals to one end of the wire.
-Screw the eye terminals to the power supply.
+Measure out the mounting holes at the top and bottom edge of the power supply onto the MDF board. Using an old power cable (or old kettle cord), cut off the appliance end and strip the insulation from the wires using a sharp knife. Crimping the ends is the safest way of connecting the wires to the power supply. Crimp an eye terminal onto the exposed wire using a crimping tool or a pair of pliers (I just soldered the wires onto the eye terminal).
+Cut a short length of the twin core or heavy duty hook-up wire to connect the power supply to the IBT_2 module/driver. Strip the insulation from both ends of this wire and crimp/solder eye terminals to one end of the wire.
+Screw the eye terminals to the power supply as follows:
 
 Brown power cord - Live
 
@@ -204,7 +204,7 @@ Black core/hookup - V-
 ## Wiring up the temperature sensors
 Assemble the DS18B20 Temperature Sensor Kit as shown [in this YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE)
 ![DS18B20 Temperature Sensor Module](https://user-images.githubusercontent.com/56422704/194804856-fa8487c0-4e9b-4010-8c91-30f3a2995175.jpeg)
-Using the plug to plug jumper leads (if close enough), connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector, using the diagram shown in the [YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE).
+Using the plug to plug jumper leads, connect the S row on the mini breadboard to the D1 socket of the black connector, the 3.3V row on the mini breadboard to the +ve socket, and the GND row to the -ve socket on the black connector, using the diagram shown in the [YouTube video](https://www.youtube.com/watch?v=mMoRSgNoOoE).
 Run the *sensors.py* python script to confirm the sensor is recognised.
 ```
 cd ~/rpi-pid-chamber
@@ -240,7 +240,7 @@ Physical Pin 15     ->  Pin 2 (LPWM)
 
 Note that it is not important which of of these two GPIO pins are connected to which IBT_2 pins. They can be set correctly in the software.
 
-Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect the red and black wires of one end to the M+ and M- terminal block.
+Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect the red and black wires of one end to the M+ and M- terminal block. These wires power the peltier cooler located between the two heatsinks of the Thermoelectric Cooler Module.
 
 Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing upwards and screw the module to the tapped metal spacers.
 
@@ -250,7 +250,7 @@ Make a close-fitting MDF skirt to support the XPS foam chamber.
 The width must be able to accomodate the thickness of the XPS foam you are using. Measure out and cut the sides and the top.
 In one of the sides, use a router/sharp knife to make a rebate for an acrylic window to monitor print progress. 
 ![Acrylic window](https://user-images.githubusercontent.com/56422704/194804890-a619e3f5-5301-49ac-a04f-76f77bd12849.jpeg)
-I have a piece of XPS foam I use to cover the window when printing. In some instances, leaving the window uncovered results in good performance, as the heater/cooler is 'pulling' against a small inflow/outflow of heat. But this is very sensitive to the PID variables, as well as the chamber/ambient temperature difference.
+I have a piece of XPS foam I use to cover the window when printing. In some rare instances, leaving the window uncovered results in good performance, as the heater/cooler is 'pulling' against a small inflow/outflow of heat. But this is very sensitive to the PID variables, as well as the chamber/ambient temperature difference, which changes often. I do not leave the window uncovered as I get better control than when I leave it uncoverd.
 ![Cover for acrylic window](https://user-images.githubusercontent.com/56422704/195497023-4d02d445-c84a-41d2-b1ad-1584ebd93236.jpg)
 In the top, create an opening to accomodate the small heatsink of the TEC Cooler.
 ![TEC on top of the chamber](https://user-images.githubusercontent.com/56422704/194804907-6e3036b9-fbe8-486a-9cb3-148e156bc091.jpeg)
@@ -266,12 +266,15 @@ Place a hole near the bottom of the chamber so the temperature sensor is just ab
 ![Location of the temperature sensor](https://user-images.githubusercontent.com/56422704/194804848-52c2f169-7a2d-4656-9c09-05403cc5d964.jpeg)
 
 ## Wiring up the thermoelectic module
+WARNING! WARNING! WARNING!
+The peltier cooler module draws around 6A from the power supply!! This is enough to cause serious harm!
 Connect/solder the end of the twin core/heavy duty hook-up wire from the IBT_2 module to the peltier module.
 Connect/solder the end of the twin core/light duty hook-up wire from the power supply to the two fans on the Thermoelectic Peltier Refrieration Cooling System.
+I have soldered my connections and used heat-shrink wrap to protect the joins. In addition, I have used electricians tape to cover and keep the joins together. If you are not sure, disconnect the cables from the IBT_2 module and the power supply, and take the chamber together with the Thermoelectric Cooler to someone with electrical experience and ask them to solder the connections.
 
 ## Test the system
-Insert the temperature sensor into the chamber and seal with Blue Tack.
-Connect the power supply to the wall socket and turn it on - the two fans on the TEC will produce significant noise, as they are runnng at full power. They are also VERY cheap, so their bearings will add to the noise after a short while. Since my setup is in a shed out back, the noise is not a problem for me, so I have not looked for a solution. Another IBT_2 could be used to control the speed of the fans, but the system has better efficiency when the heatsinks are flushed as quickly as possible. The only advice I can give is to just replace the fans with good quality ones if noise is a problem.
+Insert the temperature sensor probe into the chamber and seal it with Blue Tack.
+Connect the power supply to the wall socket and turn it on - the two fans on the TEC will produce significant noise, as they run at full power. They are also VERY cheap, so their bearings will add to the noise after a short while. Since my setup is in a shed out back, the noise is not a problem for me, so I have not looked for a solution. Another IBT_2 could be used to control the speed of the fans, but the system has better efficiency when the heatsinks are flushed as quickly as possible. The only advice I can give is to just replace the fans with good quality ones if noise is a problem.
 Log into the Raspberry Pi over SSH, change into the *rpi-pid-chamber* directory.
 Run the *sensors.py* script to identify the sensor IDs of the temperature probes.
 ```
@@ -283,13 +286,13 @@ Now run the *optimize.py* script, remembering to use the *--ambient-sensor* and 
 python optimize.py --help
 python optimize.py 30 --ambient-sensor <ambient-sensor-id-you-recorded> --chamber-sensor <chamber-sensor-id-you-recorded>
 ```
-The temperature inside the chamber should start increasing/decrease depending on the target temperature.
+The temperature inside the chamber should start increasing/decreasing depending on the target temperature.
 If the temperature is moving the wrong way, then stop the script with *CTRL-C* and swap the pin settings of the script
 ```
 python optimize.py 30 --cooling-pin 15 --heating-pin 13 --ambient-sensor <ambient-sensor-id-you-recorded> --chamber-sensor <chamber-sensor-id-you-recorded>
 ```
 When all is in order, log the output so you can examine the csv data in Excel.
-Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC havig a duty cycle around 20%. Small fluctuations around the target temperature are expected and can be addressed using the derivative gain - I do not bother as it is good enough as it is.
+Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC having a duty cycle around 20%. Small fluctuations around the target temperature are expected and can be addressed using the derivative gain - I do not bother as it is good enough as it is.
 
 When you have reasonable PID variables, update the *config.txt* configuration file with all your data. I use the *nano* editor - save the file with *CTRL-O* and exit with *CTRL-X*.
 ```
@@ -300,7 +303,7 @@ Then you can run the *control.py* script and start printing...
 python control.py
 ```
 
-I use the linux program *tmux* to give me a terminal that will run the scripts indefinitely. I can disconnect from the Raspberry Pi and the scripts will continue to run in the background.
+I use the linux program *tmux* to give me a terminal on the Raspberry Pi that will run the scripts indefinitely. I can disconnect from the Raspberry Pi and the scripts will continue to run in the background.
 To create a tmux session
 ```
 tmux new-session -s chamber
@@ -326,4 +329,4 @@ exit
 ```
 in the window/panel and it will close.
 
-You can use this feature of *tmux* to run several chambers at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply or put it on its own extra power supply.
+You can use this feature of *tmux* to run several chambers at different temperatures at once from a single Raspberry Pi. Just add another IBT_2 module and use a bigger power supply or put it on its own extra power supply.
