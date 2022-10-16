@@ -245,6 +245,10 @@ Strip the wires at the ends of the twin core/heavy duty hook-up wires. Connect t
 Carefully turn the IBT_2 module/driver upside-down so the heat sink is facing upwards and screw the module to the tapped metal spacers.
 
 ## Construct the chamber out of XPS foam
+
+Read the safety data sheet of the XPS foam to confirm it is suitable. The XPS foam I use has a melting point of 75C, and the Safety Data Sheet states 'To avoid thermal decomposition, do not overheat. Keep away from direct sunlight and heat above 300 °C'. Make sure that the foam chamber will be the least of your worries! It is incompatible with VOCs, but the many layers of Mod Podge gives it both mechanical and chemical protection.
+For v2, a better suited XPS foam will be used - I was using what was at hand for the prototype.
+
 Make a close-fitting MDF skirt to support the XPS foam chamber. 
 ![MDF shelf to support the enclosure](https://user-images.githubusercontent.com/56422704/194804841-80fb968f-5ce3-4871-893a-2cf5621d8a06.jpeg)
 The width must be able to accomodate the thickness of the XPS foam you are using. Measure out and cut the sides and the top.
