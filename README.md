@@ -260,6 +260,7 @@ Create a rebate for an acrylic support block for the TEC to rest on.
 The acrylic support must have a rectangular opening that is snug with the small heatsink. Inside the chamber on the top side, cut out two relief channels to allow better airflow out of the small heatsink, or the small heatsink will be embedded in the XPS foam. Since air can only exit the small heatsink in two directions, you only need two channels.
 ![Inside the chamber showing the relief channels to help with airlow](https://user-images.githubusercontent.com/56422704/194804819-1ee78754-e6e5-417e-b73c-372662cad7ab.jpeg)
 Glue all the components together with Original Gorilla glue and prime the chamber with two coats of Mod Podge to protect the chamber.
+If you want to be fancy, a lick of black paint or sticking some aluminium foil on the inside/outside opens up the possibility of using it in areas that get some indirect sunlight. I have a workspace that is shielded from indirect sunlight, so I can leave my shed door open during the day.
 Assemble the chamber with the TEC and the acrylic support plate.
 Place a small hole in the top of the chamber to pass the power cables through for the small fan.
 Place a hole near the bottom of the chamber so the temperature sensor is just above the resin vat. I have placed it near the back so it does not get in the way of the build plate.
@@ -291,8 +292,9 @@ If the temperature is moving the wrong way, then stop the script with *CTRL-C* a
 ```
 python optimize.py 30 --cooling-pin 15 --heating-pin 13 --ambient-sensor <ambient-sensor-id-you-recorded> --chamber-sensor <chamber-sensor-id-you-recorded>
 ```
-When all is in order, log the output so you can examine the csv data in Excel.
+When all is in order, remember to log the output so you can examine the csv data in Excel.
 Use this script to optimise the P, I & D parameters. Play around... The ideal is that the system settles down with the TEC having a duty cycle around 20%. Small fluctuations around the target temperature are expected and can be addressed using the derivative gain - I do not bother as it is good enough as it is.
+I unfortunately forgot to log the cold-start of the chamber from around 12C a few days ago. In summary, it took around 90 mins to hit the target temperature, and then around another 90 mins to settle down - all the metal parts and a full vat had to be heated to the target temperature from the 30C interior air-space using 'gentle' PID parameters. Aggressive PID parameters will pump heat into the chamber and get you to temperature quickly, but the downside is a more unstable steady-state. Since the power draw of the chamber is relatively small, I prefer to use 'gentle' PID paramters to produce a smoother steady-state and then just leave the chamber running 24/7.
 
 When you have reasonable PID variables, update the *config.txt* configuration file with all your data. I use the *nano* editor - save the file with *CTRL-O* and exit with *CTRL-X*.
 ```
@@ -310,6 +312,7 @@ tmux new-session -s chamber
 ```
 This opens another terminal you can use. Run all your python scripts in this terminal, such as
 ```
+python control.py --help
 python control.py
 ```
 
