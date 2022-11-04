@@ -40,6 +40,7 @@ Components for each 3D printer
 
 Miscellaneous
 - Soldering iron & solder (optional as one can just use screw-down connectors)
+- solder splice heatshrink (https://www.jaycar.com.au/2-7mm-solder-splice-heatshrink-pack-of-5/p/WH5670) (optional if you do not want to solder anything)
 - electrician's tape
 - 3mm drill bit & drill to use on MDF
 - crimping tool/pair of pliers
@@ -273,8 +274,8 @@ Place a hole near the bottom of the chamber so the temperature sensor is just ab
 ## Wiring up the thermoelectic module
 WARNING! WARNING! WARNING!
 The peltier cooler module draws around 6A from the power supply!! This is enough to cause serious harm!
-Connect/solder the end of the twin core/heavy duty hook-up wire from the IBT_2 module to the peltier module.
-Connect/solder the end of the twin core/light duty hook-up wire from the power supply to the two fans on the Thermoelectic Peltier Refrieration Cooling System.
+Connect/solder/use solder splice heatsink to connect the end of the twin core/heavy duty hook-up wire from the IBT_2 module to the peltier module.
+Connect/solder/use solder splice heatsink to connect the end of the twin core/light duty hook-up wire from the power supply to the two fans on the Thermoelectic Peltier Refrieration Cooling System.
 I have soldered my connections and used heat-shrink wrap to protect the joins. In addition, I have used electricians tape to cover and keep the joins together. If you are not sure, disconnect the cables from the IBT_2 module and the power supply, and take the chamber together with the Thermoelectric Cooler to someone with electrical experience and ask them to solder the connections.
 
 ## Test the system
