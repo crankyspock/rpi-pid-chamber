@@ -99,10 +99,10 @@ try:
         rms_5min = math.sqrt(sum(itertools.islice(error_square, 0, int(300/config.getfloat(chamber, 'sampling-interval'))))/(len(error_square) if len(error_square) < int(300/config.getfloat(chamber, 'sampling-interval')) else int(300/config.getfloat(chamber, 'sampling-interval'))))
         rms_10min = math.sqrt(sum(itertools.islice(error_square, 0, int(600/config.getfloat(chamber, 'sampling-interval'))))/(len(error_square) if len(error_square) < int(600/config.getfloat(chamber, 'sampling-interval')) else int(600/config.getfloat(chamber, 'sampling-interval'))))
 
-        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >3}% | I: {int(integral_response): >3}% | D: {int(derivative_response): >3}% | DC: {int(pwm_duty_cycle): >3}% | RMSErr1: {rms_1min:.5f} | RMSErr5: {rms_5min:.5f} | RMSErr10: {rms_10min:.5f} | {"Heater On" if heater_on else "Cooler On"}')
+        print(f'{time.strftime("%H:%M:%S", time.localtime())} Tc: {current_temp:.1f}\N{DEGREE SIGN}C | Ta: {ambient_temp:.1f}\N{DEGREE SIGN}C | P: {int(proportional_response): >3}% | I: {int(integral_response): >3}% | D: {int(derivative_response): >3}% | DC: {int(pwm_duty_cycle): >3}% | RMSErr1: {rms_1min:.2f} | RMSErr5: {rms_5min:.2f} | RMSErr10: {rms_10min:.2f} | {"Heater On" if heater_on else "Cooler On"}')
         if args.enable_logging:
             with open(logname, 'a') as f:
-                f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{rms_1min:.5f},{rms_5min:.5f},{rms_10min:.5f},{"Heater On" if heater_on else "Cooler On"}\n')
+                f.write(f'{time.strftime("%Y/%m/%d,%H:%M:%S", time.localtime())},{current_temp:.1f},{ambient_temp:.1f},{int(proportional_response)},{int(integral_response)},{int(derivative_response)},{int(pwm_duty_cycle)},{rms_1min:.2f},{rms_5min:.2f},{rms_10min:.2f},{"Heater On" if heater_on else "Cooler On"}\n')
 
         previous_error = current_error
         previous_time = current_time
