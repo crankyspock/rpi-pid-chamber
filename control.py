@@ -56,15 +56,11 @@ try:
 
         proportional_response = config.getfloat(chamber, "proportional-gain") * current_error
 
-        # Only calculate the integral & derivative response when close to the target temperature - prevents windup
-        if abs(current_error) < config.getfloat(chamber, 'windup'):
-            cumulative_error = cumulative_error + current_error * ((current_time - previous_time).total_seconds())
-            integral_response = config.getfloat(chamber, "integral-gain") * cumulative_error
-            derivative_response = config.getfloat(chamber, "derivative-gain") * (current_error - previous_error)/config.getfloat(chamber, 'sampling-interval')
-        else:
-            cumulative_error = 0.0
-            integral_response = 0.0
-            derivative_response = 0.0
+        cumulative_error = cumulative_error + current_error * ((current_time - previous_time).total_seconds())
+        if abs(config.getfloat(chamber, 'windup')/config.getfloat(chamber, "integral-gain")) < abs(cumulative_error): # Clamp the cumulative error to prevent windup
+            cumulative_error = config.getfloat(chamber, 'windup')/config.getfloat(chamber, "integral-gain") if 0 < cumulative_error else -1*(config.getfloat(chamber, 'windup')/config.getfloat(chamber, "integral-gain"))
+        integral_response = config.getfloat(chamber, "integral-gain") * cumulative_error
+        derivative_response = config.getfloat(chamber, "derivative-gain") * (current_error - previous_error)/config.getfloat(chamber, 'sampling-interval')
 
         calculated_response = proportional_response + integral_response + derivative_response
 
